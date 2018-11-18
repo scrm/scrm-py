@@ -61,13 +61,11 @@ class PathConfigurator(object):
 
 libdir = "lib/src/"
 includes = [libdir]
-
-
 sumstat_dir = "summary_statistics/"
 random_dir = "random/"
 
 configurator = PathConfigurator()
-print(configurator.include_dirs)
+
 source_files = ["forest.cc", "node.cc", "forest-debug.cc",
     "node_container.cc", "time_interval.cc", "model.cc", "param.cc",
     "tree_point.cc",
@@ -81,33 +79,8 @@ source_files = ["forest.cc", "node.cc", "forest-debug.cc",
     os.path.join(sumstat_dir, "oriented_forest.cc"),
 ]
 
-compileData = str("\"") + now.strftime("%Y-%m-%d") + str("\"")
-
-
-def get_v(obj_dir):
-    cwd = os.getcwd()
-    os.chdir(obj_dir)
-    ret = str("\"") + os.popen(
-        "git show HEAD | head -1 | sed -e \"s/commit //g\" | cat").read(
-        ).strip("\n") + str("\"")
-    os.chdir(cwd)
-    return ret
-
-
-##scrm_v = get_v("lib/")
-##lasso_v = get_v("lib/DEploid-Lasso-lib")
-#vv = "\"python\""
-#scrm_v = "\"scrm-cpp\""
-#lasso_v = "\"lasso-cpp\""
-
-if IS_WINDOWS:
-    vv = "\\\"python\\\""
-    scrm_v = "\\\"scrm-cpp\\\""
-    lasso_v = "\\\"lasso-cpp\\\""
 
 cpp11option = ['-std=c++11']
-#if IS_WINDOWS:
-    #cpp11option = ['-std:c++11']
 
 _scrm_module = Extension(
     '_scrm',
@@ -115,10 +88,8 @@ _scrm_module = Extension(
         os.path.join(libdir, f) for f in source_files],
     extra_compile_args=cpp11option,
     extra_link_args=['-lz'],
-    #libraries=['z'],
-    #undef_macros=["NDEBUG"],
-    define_macros=[("VERSION", vv), ("DEPLOIDVERSION", scrm_v),
-                   ("LASSOVERSION", lasso_v), ("COMPILEDATE", compileData)],
+    undef_macros=[],
+    define_macros=[],
     include_dirs=[get_pybind_include(),
             get_pybind_include(user=True)] + ["lib/"] + includes + [
         os.path.join(libdir, sumstat_dir)] + [
@@ -135,7 +106,7 @@ setup(
     description="scrm CPP module",
     long_description=long_description,
     author=["Paul Staab", "Joe Zhu"],
-    version="todo",
+    version="1.7a0",
     author_email="joe.zhu@bdi.ox.ac.uk",
     url="https://github.com/scrm/scrm-py",
     ext_modules=[_scrm_module],
