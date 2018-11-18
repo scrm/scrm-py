@@ -1,0 +1,14 @@
+# data manipulation
+pandas
+
+# test
+nose
+
+# style
+pep8
+
+# test runs
+matplotlib
+
+# c++11 standard
+pybind11
