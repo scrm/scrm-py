@@ -89,7 +89,7 @@ _scrm_module = Extension(
     extra_compile_args=cpp11option,
     extra_link_args=['-lz'],
     undef_macros=[],
-    define_macros=[],
+    define_macros=[("VERSION", "\"python\"")],
     include_dirs=[get_pybind_include(),
             get_pybind_include(user=True)] + ["lib/"] + includes + [
         os.path.join(libdir, sumstat_dir)] + [
